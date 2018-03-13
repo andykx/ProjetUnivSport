@@ -1,0 +1,5 @@
+sign_up: 'Créer un compte'
+login: 'Se connecter'
+add_etu: 'Ajouter un étudiant'
+modify_etu: 'Modifier un étudiant'
+delete_etu: 'Supprimer un étudiant'
