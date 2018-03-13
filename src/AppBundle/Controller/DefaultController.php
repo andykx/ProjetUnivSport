@@ -17,4 +17,20 @@ class DefaultController extends Controller
         dump ($translated);
         return $this->render('default/index.html.twig');
     }
+
+    /**
+     * @Route("{_locale}/admin/test", name="adminpage")
+     */
+    public function testAdminAction(Request $request)
+    {
+        return $this->render('evenement/new.html.twig');
+    }
+
+    /**
+     * @Route("/user/test", name="userpage")
+     */
+    public function testRoleAction(Request $request)
+    {
+        return $this->render('exemple_roles/user.html.twig');
+    }
 }
