@@ -3,9 +3,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3 col-sm-12 col-xs-12">
-                {% for sport in sports %}
+                {% for evenement in evenements %}
                     <p>
-                        <a href="{{ path('sport_delete', {'id':sport.id}) }}"> <input class="btn btn-success" type="submit" value="Supprimer"/> </a>
+                        <a href="{{ path('evenement_delete', {'id':evenement.id}) }}"> <input class="btn btn-success" type="submit" value="Supprimer"/> </a>
                     </p>
                 {% endfor %}
 

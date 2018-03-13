@@ -3,10 +3,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3 col-sm-12 col-xs-12">
-                {% for sport in sport %}
+                {% for evenement in evenements %}
                     <p>
-                        <a href="{{ path('sport_edit',{'id':sport.id}) }}">{{ sport.prenomEtu }} - {{ sport.nomEtu }} <input class="btn btn-success" type="submit" value="Modifier"/> </a>
-                        <a href="{{ path('sport_delete', {'id':sport.id}) }}"> <input class="btn btn-success" type="submit" value="Supprimer"/> </a>
+                        <a href="{{ path('evenement_edit',{'id':evenement.id}) }}">{{ evenement.titre }} - {{ evenement.date|date("m/d/Y") }} <input class="btn btn-success" type="submit" value="Modifier"/> </a>
+                        <a href="{{ path('evenement_delete', {'id':evenement.id}) }}"> <input class="btn btn-success" type="submit" value="Supprimer"/> </a>
                     </p>
                 {% endfor %}
 

@@ -24,12 +24,12 @@ class Evenement
         $this->utilisateurs = new ArrayCollection();
     }
 
-    public function getUtilisateurs()
+    public function getRoles()
     {
         return $this->utilisateurs;
     }
 
-    public function addUtilisateur(Utilisateur $utilisateur) {
+    public function addRole(Utilisateur $utilisateur) {
         $this->utilisateurs[] = $utilisateur;
     }
 

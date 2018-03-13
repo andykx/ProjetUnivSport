@@ -18,7 +18,7 @@
                                     <td> {{ evenement.titre }}</td>
                                     <td> {{ evenement.description }}</td>
                                     <td> {{ evenement.nbInscrits }}</td>
-                                    <td> {{ evenement.date }}</td>
+                                    <td> {{ evenement.date|date("m/d/Y") }}</td>
                                 </tr>
                             {% endfor %}
                         </table>

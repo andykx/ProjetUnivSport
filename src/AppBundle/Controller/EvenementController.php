@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Utilisateur;
 use AppBundle\Entity\Evenement;
+use AppBundle\Form\EvenementType;
 use AppBundle\Form\UtilisateurType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EvenementController extends Controller
 {
     /**
-     * @Route("{_locale}/index", name="utilisateur_index")
+     * @Route("{_locale}/index", name="evenement_index")
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
@@ -37,16 +38,16 @@ class EvenementController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="utilisateur_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="evenement_delete")
      */
 
-    public function deleteAction(utilisateur $utilisateur)
+    public function deleteAction(Evenement $evenement)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($utilisateur);
+        $em->remove($evenement);
         $em->flush();
 
-        return new Response('utilisateur supprimé');
+        return new Response('evenement supprimé');
     }
 
 
@@ -95,7 +96,7 @@ class EvenementController extends Controller
 
 
     /**
-     * @Route("{_locale}/add", name="addFilm")
+     * @Route("{_locale}/add", name="addEvent")
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
@@ -119,32 +120,32 @@ class EvenementController extends Controller
 
 
     /**
-     * @Route ("{_locale}/list", name="utilisateurs_list")
+     * @Route ("{_locale}/list", name="evenements_list")
      */
     public function listAction(){
-        $repository = $this->getDoctrine()->getRepository('AppBundle:utilisateur');
-        $utilisateurs = $repository->findAll();
-        return $this->render('utilisateur/edit.html.twig',array('utilisateurs'=>$utilisateurs));
+        $repository = $this->getDoctrine()->getRepository('AppBundle:evenement');
+        $evenements = $repository->findAll();
+        return $this->render('evenement/edit.html.twig',array('evenements'=>$evenements));
     }
 
 
     /**
      * @return Response
      *
-     * @Route ("/edit/{id}", name="utilisateur_edit")
+     * @Route ("/edit/{id}", name="evenement_edit")
      */
-    public function editAction(Request $request, utilisateur $utilisateur){
-        $form = $this->createForm(utilisateurType::class,$utilisateur);
+    public function editAction(Request $request, evenement $evenement){
+        $form = $this->createForm(EvenementType::class,$evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            //$em->persist($utilisateur);
+            //$em->persist($evenement);
             $em->flush();
-            return new Response('utilisateur modifié');
+            return new Response('evenement modifié');
         }
         $formView = $form->createView();
-        return $this->render('utilisateur/new.html.twig', array('form'=>$formView));
+        return $this->render('evenement/new.html.twig', array('form'=>$formView));
     }
 }

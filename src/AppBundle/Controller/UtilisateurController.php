@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Evenement;
 use AppBundle\Entity\Utilisateur;
 use AppBundle\Form\UtilisateurType;
-use AppBundle\Form\EvenementType;
 
 class UtilisateurController extends Controller
 {
