@@ -5,16 +5,20 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-success">
-                    <div class="panel-heading">Liste des acteeeeeurs du film Harry Potter
+                    <div class="panel-heading">Liste des évenements
                         <table class="table">
                             <tr>
-                                <th>Rôleeeeeee</th>
-                                <th>Nom</th>
+                                <th>Titre</th>
+                                <th>Description</th>
+                                <th>Nombre d'inscrits</th>
+                                <th>Date de l'évenement</th>
                             </tr>
-
-                            {% for key, item in sports %}
+                            {% for evenement in evenements %}
                                 <tr>
-                                    <td> {{  item }}</td><td>{{  key }}</td>
+                                    <td> {{ evenement.titre }}</td>
+                                    <td> {{ evenement.description }}</td>
+                                    <td> {{ evenement.nbInscrits }}</td>
+                                    <td> {{ evenement.date }}</td>
                                 </tr>
                             {% endfor %}
                         </table>

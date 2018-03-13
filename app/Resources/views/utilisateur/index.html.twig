@@ -5,16 +5,16 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-success">
-                    <div class="panel-heading">Liste des étudiants
+                    <div class="panel-heading">Liste des utilisateurs
                         <table class="table">
                             <tr>
                                 <th>Nom</th>
                                 <th>Prénom</th>
                             </tr>
-                            {% for etudiant in etudiants %}
+                            {% for utilisateur in utilisateurs %}
                                 <tr>
-                                    <td> {{ etudiant.nomEtu }}</td>
-                                    <td> {{ etudiant.prenomEtu }}</td>
+                                    <td> {{ utilisateur.nom }}</td>
+                                    <td> {{ utilisateur.prenom }}</td>
                                 </tr>
                             {% endfor %}
                         </table>

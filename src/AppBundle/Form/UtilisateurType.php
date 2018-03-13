@@ -6,21 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SportType extends AbstractType
+class UtilisateurType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('libelle');
+        $builder->add('nom')->add('prenom')->add('role')->add('evenement');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Sport'
+            'data_class' => 'AppBundle\Entity\Utilisateur'
         ));
     }
 
@@ -29,7 +29,7 @@ class SportType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_sport';
+        return 'appbundle_utilisateur';
     }
 
 

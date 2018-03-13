@@ -13,12 +13,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-
-
         $translated = $this->get('translator')->trans('action.cancel');
         dump ($translated);
-
         return $this->render('default/index.html.twig');
-
     }
 }

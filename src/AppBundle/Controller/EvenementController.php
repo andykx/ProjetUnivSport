@@ -2,73 +2,74 @@
 /**
  * Created by PhpStorm.
  * User: Andy
- * Date: 12/03/2018
- * Time: 21:42
+ * Date: 13/03/2018
+ * Time: 18:03
  */
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\Entity\Etudiant;
-use AppBundle\Form\EtudiantType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Utilisateur;
+use AppBundle\Entity\Evenement;
+use AppBundle\Form\UtilisateurType;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class EtudiantController extends Controller
+
+class EvenementController extends Controller
 {
     /**
-     * @Route("{_locale}/index", name="etudiant_index")
+     * @Route("{_locale}/index", name="utilisateur_index")
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
 
     public function indexAction(Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository(Etudiant::class);
-        $etudiants = $repository->findAll();
-        dump($etudiants);
-        return $this->render('etudiant/index.html.twig', [
-            'etudiants'=> $etudiants
+        $repository = $this->getDoctrine()->getRepository(Evenement::class);
+        $evenements = $repository->findAll();
+        dump($evenements);
+        return $this->render('evenement/index.html.twig', [
+            'evenements'=> $evenements
         ]);
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="etudiant_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="utilisateur_delete")
      */
 
-    public function deleteAction(etudiant $etudiant)
+    public function deleteAction(utilisateur $utilisateur)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($etudiant);
+        $em->remove($utilisateur);
         $em->flush();
 
-        return new Response('Etudiant supprimé');
+        return new Response('utilisateur supprimé');
     }
 
 
 
     public function newAction(Request $request)
     {
-        $etudiant = new etudiant();
-        $form = $this->createForm(EtudiantType::class, $etudiant,[
-            'action' => $this->generateUrl('addEtudiant')
+        $evenement = new Evenement();
+        $form = $this->createForm(EvenementType::class, $evenement,[
+            'action' => $this->generateUrl('addEvenement')
         ]);
 
         $form->handleRequest($request);
         if ( ! $form->isSubmitted() || ! $form->isValid()) {
-            return $this->render('etudiant/new.html.twig', [
-                'add_etudiant_form' => $form->createView(),
-                'etudiant' => $etudiant,
+            return $this->render('evenement/new.html.twig', [
+                'add_evenement_form' => $form->createView(),
+                'evenement' => $evenement,
             ]);
         }
         $em = $this->getDoctrine()->getManager();
-        $em->persist($etudiant);
+        $em->persist($evenement);
         $em->flush();
 
-        return $this->redirectToRoute('etudiant_index');
+        return $this->redirectToRoute('evenement_index');
     }
 
     /**
@@ -101,49 +102,49 @@ class EtudiantController extends Controller
 
     public function addAction(Request $request)
     {
-        $etudiant = new etudiant();
-        $form = $this->createForm(EtudiantType::class,$etudiant);
+        $evenement = new evenement();
+        $form = $this->createForm(EvenementType::class,$evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($etudiant);
+            $em->persist($evenement);
             $em->flush();
-            return new response('etudiant ajouté');
+
         }
         $formView = $form->createView();
-        return $this->render('etudiant/new.html.twig', array('form'=>$formView));
+        return $this->render('evenement/new.html.twig', array('form'=>$formView));
     }
 
 
     /**
-     * @Route ("{_locale}/list", name="etudiants_list")
+     * @Route ("{_locale}/list", name="utilisateurs_list")
      */
     public function listAction(){
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Etudiant');
-        $etudiants = $repository->findAll();
-        return $this->render('etudiant/edit.html.twig',array('etudiants'=>$etudiants));
+        $repository = $this->getDoctrine()->getRepository('AppBundle:utilisateur');
+        $utilisateurs = $repository->findAll();
+        return $this->render('utilisateur/edit.html.twig',array('utilisateurs'=>$utilisateurs));
     }
 
 
     /**
      * @return Response
      *
-     * @Route ("/edit/{id}", name="etudiant_edit")
+     * @Route ("/edit/{id}", name="utilisateur_edit")
      */
-    public function editAction(Request $request, Etudiant $etudiant){
-        $form = $this->createForm(EtudiantType::class,$etudiant);
+    public function editAction(Request $request, utilisateur $utilisateur){
+        $form = $this->createForm(utilisateurType::class,$utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            //$em->persist($etudiant);
+            //$em->persist($utilisateur);
             $em->flush();
-            return new Response('etudiant modifié');
+            return new Response('utilisateur modifié');
         }
         $formView = $form->createView();
-        return $this->render('etudiant/new.html.twig', array('form'=>$formView));
+        return $this->render('utilisateur/new.html.twig', array('form'=>$formView));
     }
 }
