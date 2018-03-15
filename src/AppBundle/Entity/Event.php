@@ -6,31 +6,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Evenement
+ * Event
  *
- * @ORM\Table(name="Evenement")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EvenementRepository")
+ * @ORM\Table(name="event")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
  */
-class Evenement
+class Event
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Utilisateur",mappedBy="evenement")
+     * @ORM\OneToMany(targetEntity="User",mappedBy="event")
      */
-    private $utilisateurs;
+    private $users;
 
     public function __construct()
     {
-        $this->utilisateurs = new ArrayCollection();
-    }
-
-    public function getRoles()
-    {
-        return $this->utilisateurs;
-    }
-
-    public function addRole(Utilisateur $utilisateur) {
-        $this->utilisateurs[] = $utilisateur;
+        $this->users = new ArrayCollection();
     }
 
 
@@ -87,7 +78,7 @@ class Evenement
      *
      * @param string $titre
      *
-     * @return Evenement
+     * @return Event
      */
     public function setTitre($titre)
     {
@@ -111,7 +102,7 @@ class Evenement
      *
      * @param string $description
      *
-     * @return Evenement
+     * @return Event
      */
     public function setDescription($description)
     {
@@ -135,7 +126,7 @@ class Evenement
      *
      * @param integer $nbInscrits
      *
-     * @return Evenement
+     * @return Event
      */
     public function setNbInscrits($nbInscrits)
     {
@@ -159,7 +150,7 @@ class Evenement
      *
      * @param \DateTime $date
      *
-     * @return Evenement
+     * @return Event
      */
     public function setDate($date)
     {

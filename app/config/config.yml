@@ -70,9 +70,11 @@ swiftmailer:
 
 
 fos_user:
-  db_driver: orm
-  firewall_name: main
-  user_class: AppBundle\Entity\User
-  from_email:
-    address: "andy44@hotmail.fr"
-    sender_name: "AndyVallee"
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: "andy44@hotmail.fr"
+        sender_name: "fosuser"

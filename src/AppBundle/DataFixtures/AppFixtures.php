@@ -3,8 +3,9 @@
 namespace AppBundle\DataFixtures;
 
 use AppBundle\Entity\Etudiant;
-use AppBundle\Entity\Evenement;
+use AppBundle\Entity\Event;
 use AppBundle\Entity\Sport;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Utilisateur;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -13,12 +14,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $utilisateurs=[];
+        $users=[];
         // create 3 etudiants! Bam!
         for ($i = 0; $i < 10; $i++) {
-            $utilisateur = new Utilisateur();
-            $utilisateur->setNom('NomUtilisateur '.$i);
-            $utilisateur->setPrenom('PrenomUtilisateur '.$i);
+            $user = new User();
+            $user->setNom('NomUtilisateur '.$i);
+            $user->setPrenom('PrenomUtilisateur '.$i);
             $ch = <<<'MARKDOWN'
 Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod tempor
 incididunt ut labore et **dolore magna aliqua**: Duis aute irure dolor in
@@ -40,16 +41,16 @@ nulla vitae est.
 
 MARKDOWN;
 
-            $manager->persist($utilisateur);
+            $manager->persist($user);
             $manager->flush();
-            $utilisateurs[] = $utilisateur;
+            $users[] = $user;
         }
 
-        foreach ($utilisateurs as $utilisateur){
+        foreach ($users as $user){
             for ($i = 0; $i < mt_rand(3, 7); $i++) {
-                $evenement = new Evenement();
+                $evenement = new Event();
                 $evenement->setTitre('Titre '.$i);
-                $manager->persist($utilisateur);
+                $manager->persist($user);
             }
             $manager->flush();
         }

@@ -3,6 +3,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3 col-sm-12 col-xs-12">
+                <h1>{{'event.creation'|trans}}</h1>
+                {% form_theme form 'bootstrap_4_layout.html.twig' %}
                 {{ form_start (form) }}
                 {{ form_widget(form) }}
                 <input class="btn btn-success" type="submit" value="Ajouter"/>

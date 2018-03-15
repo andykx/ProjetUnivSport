@@ -37,5 +37,5 @@ class User extends FosUser
     {
         return $this->id;
     }
-}
 
+}

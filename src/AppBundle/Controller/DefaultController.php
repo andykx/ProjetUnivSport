@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("{_locale}/", name="homepage")
+     * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
@@ -19,18 +19,17 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("{_locale}/admin/test", name="adminpage")
+     *
+     * @Route("/locale/{locale}", name="setlocale")
+     *
      */
-    public function testAdminAction(Request $request)
+    public function setLocaleAction(Request $request, $locale = "null")
     {
-        return $this->render('evenement/new.html.twig');
+        if ($locale != null) {
+            $request->getSession()->set('_locale', $locale);
+        }
+        return $this->redirectToRoute('homepage');
     }
 
-    /**
-     * @Route("/user/test", name="userpage")
-     */
-    public function testRoleAction(Request $request)
-    {
-        return $this->render('exemple_roles/user.html.twig');
-    }
+
 }

@@ -11,66 +11,64 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Utilisateur;
-use AppBundle\Entity\Evenement;
-use AppBundle\Form\EvenementType;
-use AppBundle\Form\UtilisateurType;
+use AppBundle\Entity\Event;
+use AppBundle\Form\EventType;
 use Symfony\Component\HttpFoundation\Response;
 
 
 
-class EvenementController extends Controller
+class EventController extends Controller
 {
     /**
-     * @Route("{_locale}/index", name="evenement_index")
+     * @Route("/index", name="event_index")
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
 
     public function indexAction(Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository(Evenement::class);
-        $evenements = $repository->findAll();
-        dump($evenements);
-        return $this->render('evenement/index.html.twig', [
-            'evenements'=> $evenements
+        $repository = $this->getDoctrine()->getRepository(Event::class);
+        $events = $repository->findAll();
+        dump($events);
+        return $this->render('event/index.html.twig', [
+            'events'=> $events
         ]);
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="evenement_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="event_delete")
      */
 
-    public function deleteAction(Evenement $evenement)
+    public function deleteAction(Event $event)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($evenement);
+        $em->remove($event);
         $em->flush();
 
-        return new Response('evenement supprimé');
+        return new Response('event supprimé');
     }
 
 
 
     public function newAction(Request $request)
     {
-        $evenement = new Evenement();
-        $form = $this->createForm(EvenementType::class, $evenement,[
-            'action' => $this->generateUrl('addEvenement')
+        $event = new Event();
+        $form = $this->createForm(EventType::class, $event,[
+            'action' => $this->generateUrl('addevent')
         ]);
 
         $form->handleRequest($request);
         if ( ! $form->isSubmitted() || ! $form->isValid()) {
-            return $this->render('evenement/new.html.twig', [
-                'add_evenement_form' => $form->createView(),
-                'evenement' => $evenement,
+            return $this->render('event/new.html.twig', [
+                'add_event_form' => $form->createView(),
+                'event' => $event,
             ]);
         }
         $em = $this->getDoctrine()->getManager();
-        $em->persist($evenement);
+        $em->persist($event);
         $em->flush();
 
-        return $this->redirectToRoute('evenement_index');
+        return $this->redirectToRoute('event_index');
     }
 
     /**
@@ -96,56 +94,55 @@ class EvenementController extends Controller
 
 
     /**
-     * @Route("{_locale}/add", name="addEvent")
+     * @Route("/add", name="addEvent")
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
 
     public function addAction(Request $request)
     {
-        $evenement = new evenement();
-        $form = $this->createForm(EvenementType::class,$evenement);
+        $event = new Event();
+        $form = $this->createForm(EventType::class,$event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($evenement);
+            $em->persist($event);
             $em->flush();
 
         }
         $formView = $form->createView();
-        return $this->render('evenement/new.html.twig', array('form'=>$formView));
+        return $this->render('event/new.html.twig', array('form'=>$formView));
     }
 
 
     /**
-     * @Route ("{_locale}/list", name="evenements_list")
+     * @Route ("/list", name="event_list")
      */
     public function listAction(){
-        $repository = $this->getDoctrine()->getRepository('AppBundle:evenement');
-        $evenements = $repository->findAll();
-        return $this->render('evenement/edit.html.twig',array('evenements'=>$evenements));
+        $repository = $this->getDoctrine()->getRepository('AppBundle:event');
+        $events = $repository->findAll();
+        return $this->render('event/edit.html.twig',array('events'=>$events));
     }
 
 
     /**
      * @return Response
      *
-     * @Route ("/edit/{id}", name="evenement_edit")
+     * @Route ("/edit/{id}", name="event_edit")
      */
-    public function editAction(Request $request, evenement $evenement){
-        $form = $this->createForm(EvenementType::class,$evenement);
+    public function editAction(Request $request, Event $event){
+        $form = $this->createForm(EventType::class,$event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            //$em->persist($evenement);
             $em->flush();
-            return new Response('evenement modifié');
+            return new Response('event modifié');
         }
         $formView = $form->createView();
-        return $this->render('evenement/new.html.twig', array('form'=>$formView));
+        return $this->render('event/new.html.twig', array('form'=>$formView));
     }
 }

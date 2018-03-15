@@ -6,21 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UtilisateurType extends AbstractType
+class EventType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('prenom')->add('role')->add('evenement');
+        $builder->add('titre')->add('description')->add('nbInscrits')->add('date');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Utilisateur'
+            'data_class' => 'AppBundle\Entity\Event'
         ));
     }
 
@@ -29,7 +29,7 @@ class UtilisateurType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_utilisateur';
+        return 'appbundle_evenement';
     }
 
 
