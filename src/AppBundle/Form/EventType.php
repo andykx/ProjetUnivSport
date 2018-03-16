@@ -13,7 +13,7 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('description')->add('nbInscrits')->add('date');
+        $builder->add('titre')->add('description')->add('nbInscrits')->add('nbPlacesDispo')->add('date');
     }/**
      * {@inheritdoc}
      */
@@ -29,7 +29,7 @@ class EventType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_evenement';
+        return 'appbundle_event';
     }
 
 

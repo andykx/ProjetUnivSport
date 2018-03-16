@@ -3,7 +3,7 @@
 namespace AppBundle\DataFixtures;
 
 use AppBundle\Entity\Etudiant;
-use AppBundle\Entity\Event;
+use AppBundle\Entity\event;
 use AppBundle\Entity\Sport;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Utilisateur;

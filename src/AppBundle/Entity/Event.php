@@ -9,22 +9,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Event
  *
  * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EvenementRepository")
  */
 class Event
 {
-
-    /**
-     * @ORM\OneToMany(targetEntity="User",mappedBy="event")
-     */
-    private $users;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
-
-
     /**
      * @var int
      *
@@ -56,6 +44,13 @@ class Event
     private $nbInscrits;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nbPlacesDispo", type="integer", nullable=true)
+     */
+    private $nbPlacesDispo;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
@@ -78,7 +73,7 @@ class Event
      *
      * @param string $titre
      *
-     * @return Event
+     * @return event
      */
     public function setTitre($titre)
     {
@@ -102,7 +97,7 @@ class Event
      *
      * @param string $description
      *
-     * @return Event
+     * @return event
      */
     public function setDescription($description)
     {
@@ -126,7 +121,7 @@ class Event
      *
      * @param integer $nbInscrits
      *
-     * @return Event
+     * @return event
      */
     public function setNbInscrits($nbInscrits)
     {
@@ -143,6 +138,30 @@ class Event
     public function getNbInscrits()
     {
         return $this->nbInscrits;
+    }
+
+    /**
+     * Set nbPlacesDispo
+     *
+     * @param integer $nbPlacesDispo
+     *
+     * @return event
+     */
+    public function setNbPlacesDispo($nbPlacesDispo)
+    {
+        $this->nbPlacesDispo = $nbPlacesDispo;
+
+        return $this;
+    }
+
+    /**
+     * Get nbPlacesDispo
+     *
+     * @return int
+     */
+    public function getNbPlacesDispo()
+    {
+        return $this->nbPlacesDispo;
     }
 
     /**

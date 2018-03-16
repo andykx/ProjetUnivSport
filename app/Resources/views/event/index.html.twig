@@ -10,15 +10,19 @@
                             <tr>
                                 <th>Titre</th>
                                 <th>Description</th>
-                                <th>Nombre d'inscrits</th>
+                                <th>Total de places</th>
+                                <th>Places restantes</th>
                                 <th>Date de l'évenement</th>
                             </tr>
-                            {% for evenement in evenements %}
+                            {% for event in events %}
                                 <tr>
-                                    <td> {{ evenement.titre }}</td>
-                                    <td> {{ evenement.description }}</td>
-                                    <td> {{ evenement.nbInscrits }}</td>
-                                    <td> {{ evenement.date|date("d/m/Y H:i:s") }}</td>
+                                    <td> {{ event.titre }}</td>
+                                    <td> {{ event.description }}</td>
+                                    <td> {{ event.nbInscrits }}</td>
+                                    <td> {{ event.nbPlacesDispo }}</td>
+                                    <td> {{ event.date|date("d/m/Y H:i:s") }}</td>
+                                    <td><a href="{{ path('event_edit',{'id':event.id}) }}"><input class="btn btn-warning" type="submit" value="Modifier"/> </a></td>
+                                    <td><a href="{{ path('event_delete', {'id':event.id}) }}"><input class="btn btn-danger" type="submit" value="Supprimer"/> </a></td>
                                 </tr>
                             {% endfor %}
                         </table>

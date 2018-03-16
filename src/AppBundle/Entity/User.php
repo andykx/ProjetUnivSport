@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as FosUser;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -22,9 +23,9 @@ class User extends FosUser
      */
     protected $id;
 
-
     public function __construct()
     {
+        $this->events = new arrayCollection();
         parent::__construct();
     }
 

@@ -1,14 +1,11 @@
-sign_up: 'Créer un compte'
-login: 'Se connecter'
-add_etu: 'Ajouter un étudiant'
-modify_etu: 'Modifier un étudiant'
-delete_etu: 'Supprimer un étudiant'
-welcome: 'Bienvenue sur le site officiel UnivSport'
-look_etu: 'Visualiser les étudiants'
-modify_event: 'Modifier un évenement'
-delete_event: 'Supprimer un évenement'
-look_event: 'Visualiser les évenement'
-add_event: 'Ajouter un évenement'
-my_profile: 'Mon profil'
-event.creation: 'Création évenement'
-logout: 'Se déconnecter'
+home.title: UnivSport - Site officiel
+look_event: Voir évenements
+add_event: Créer évenement
+my_profile: Mon profil
+logout: Se déconnecter
+sign_up: Créer un compte
+login: Se connecter
+welcome: Bienvenue sur le site
+event.editing: Editer
+event.backtolist: Retour
+event.creation: Créer
