@@ -2,9 +2,22 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Suin\RSSWriter\Feed;
+use Suin\RSSWriter\Channel;
+use Suin\RSSWriter\Item;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class DefaultController extends Controller
 {
@@ -15,6 +28,8 @@ class DefaultController extends Controller
     {
         $translated = $this->get('translator')->trans('action.cancel');
         dump ($translated);
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
         return $this->render('default/index.html.twig');
     }
 
@@ -26,10 +41,53 @@ class DefaultController extends Controller
     public function setLocaleAction(Request $request, $locale = "null")
     {
         if ($locale != null) {
-            $request->getSession()->set('_locale', $locale);
+            $request->getSession()->set('{_locale', $locale);
         }
         return $this->redirectToRoute('homepage');
     }
 
+    /**
+     * @Route("/rss", name="getFluxRss")
+     */
+    public function rssAction(Request $request)
+    {
+
+        $domaine = 'http://UnivSport.fr/';
+        $em = $this->getDoctrine()->getManager();
+
+        // recuperation d'uniquement ceux à venir
+        $events = $this->getDoctrine()
+            ->getRepository('AppBundle:Event')
+            ->findAllGreaterThanDate(date('Y-m-d H:i:s'));
+
+        $locale =  $request->getLocale();
+
+        $feed = new Feed();
+
+        $channel = new Channel();
+        $channel
+            ->title('Evenements')
+            ->description('Liste des évènements à venir')
+            ->url('http://UnivSport.fr')
+            ->feedUrl('http://UnivSport.fr/rss')
+            ->copyright('Copyright 2018, UnivSport.fr')
+            ->pubDate(strtotime(date('Y-m-d H:i:s')))
+            ->lastBuildDate(strtotime(date('Y-m-d H:i:s')))
+            ->appendTo($feed);
+
+        foreach ($events as $event) {
+            $auteur = $event->getUser();
+            $item = new Item();
+            $item
+                ->titre($event->getTitre())
+                ->description('<div>'.$event->getDescription().'</div>')
+                ->url($domaine.$locale.'/event/'.$event->getId())
+                ->pubDate($event->getDate()->getTimeStamp())
+                ->appendTo($channel);
+        }
+        $response = new Response($feed);
+        $response->headers->set('Content-Type', 'xml');
+        return $response;
+    }
 
 }

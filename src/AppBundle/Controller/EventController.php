@@ -14,18 +14,29 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Event;
 use AppBundle\Form\EventType;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Suin\RSSWriter\Feed;
+use Suin\RSSWriter\Channel;
+use Suin\RSSWriter\Item;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
 /**
- * @Route("{_locale}/event")
+ * @Route("/auth/{_locale}/event")
  */
 
 class EventController extends Controller
 {
     /**
-     * @Route("/index", name="event_index")
+     * @Route("/", name="event_index")
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \LogicException
+     * @Method("GET")
      */
 
     public function indexAction(Request $request)
@@ -33,9 +44,50 @@ class EventController extends Controller
         $repository = $this->getDoctrine()->getRepository(Event::class);
         $events = $repository->findAll();
         dump($events);
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Liste des évènements",$this->get("router")->generate("event_index"));
         return $this->render('event/index.html.twig', [
             'events'=> $events
         ]);
+    }
+
+    /**
+     * @Route("/rss.xml", name="event_rss")
+     */
+    public function rssAction(Request $request)
+    {
+        $domaine = 'http://UnivSport.fr/';
+        $repository = $this->getDoctrine()->getRepository(Event::class);
+        $events = $repository->findAll();
+
+        $locale =  $request->getLocale();
+
+        $feed = new Feed();
+
+        $channel = new Channel();
+        $channel
+            ->title('Evenements')
+            ->description('Liste des évènements à venir')
+            ->url('http://UnivSport.fr')
+            ->feedUrl('http://UnivSport.fr/rss')
+            ->copyright('Copyright 2018, UnivSport')
+            ->pubDate(strtotime(date('Y-m-d H:i:s')))
+            ->lastBuildDate(strtotime(date('Y-m-d H:i:s')))
+            ->appendTo($feed);
+
+        foreach ($events as $event) {
+            $item = new Item();
+            $item
+                ->title($event->getTitre())
+                ->description('<div>'.$event->getDescription().'</div>')
+                ->url($domaine.$locale.'/event/'.$event->getId())
+                ->pubDate($event->getDate()->getTimeStamp())
+                ->appendTo($channel);
+        }
+        $response = new Response($feed);
+        $response->headers->set('Content-Type', 'xml');
+        return $response;
     }
 
     /**
@@ -55,7 +107,6 @@ class EventController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
-
         }
         $formView = $form->createView();
         return $this->render('event/new.html.twig', array('form'=>$formView));
@@ -110,5 +161,28 @@ class EventController extends Controller
 
         return $this->redirectToRoute('event_index');
     }
+
+    /**
+     * Change the locale for the current user
+     *
+     * @Route("/theme/{style}", name="setTheme")
+     *
+     */
+    public function setThemeAction(Request $request, $style = "null")
+    {
+
+        if ($style != null) {
+            $request->getSession()->set('style', 'css/' . $style . '.css');
+        }
+
+
+        $referer = $request->headers->get('referer');
+        if( strpos($referer, "/event/")){
+            return $this->redirectToRoute('event_index');
+        }else{
+            return $this->redirect($referer);
+        }
+    }
+
 
 }

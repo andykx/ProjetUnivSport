@@ -1,4 +1,4 @@
-home.title: UnivSport - Site officiel
+home.title: UnivSport
 look_event: Voir évenements
 add_event: Créer évenement
 my_profile: Mon profil
@@ -9,3 +9,4 @@ welcome: Bienvenue sur le site
 event.editing: Editer
 event.backtolist: Retour
 event.creation: Créer
+Theme: Thèmes

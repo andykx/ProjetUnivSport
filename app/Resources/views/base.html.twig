@@ -1,55 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %} UnivSport {% endblock %}</title>
-    {% block stylesheets %} {% endblock %}
+
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>
+        {% block title %} UnivSport {% endblock %}
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #707070;
+        }
+        p {font-size: 16px;}
+        .margin {margin-bottom: 45px;}
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+        }
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+        }
+        .navbar-nav  li a:hover {
+            color: #1abc9c !important;
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path('homepage') }}">{{ 'home.title' | trans }}</a>
-            <ul class="nav navbar-nav navbar-right">
-                {% if is_granted("ROLE_USER") %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-list"></span> <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('event_index') }}">{{'look_event'|trans}}</a></li>
-                            <li><a href="{{ path('event_add') }}">{{'add_event'|trans}}</a></li>
-                        </ul>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-
-        <ul class="nav navbar-nav navbar-right">
-            {% if is_granted("ROLE_USER") %}
-                <li>
-                    <a href="{{ path('fos_user_profile_show') }}">{{ 'my_profile' | trans }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('fos_user_security_logout') }}">{{'logout'|trans}}</a>
-                </li>
-                <li class=""dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-globe"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('event_index',{'_locale':'fr'}) }}">Français</a></li>
-                        <li><a href="{{ path('event_index',{'_locale':'en'}) }}">Anglais</a></li>
-                    </ul>
-                </li>
-            {% else %}
-                <li><a href="{{ path('fos_user_registration_register') }}><span class="glyphicon glyphicon-user"></span> {{ 'sign_up'|trans }}</a></li>
-                <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span> {{ 'login'|trans }}</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</nav>
+{% include 'default/home.html.twig' %}
 
 <div class="container" style="margin-top:80px">
     <div class="row">
@@ -69,23 +73,14 @@
             {% endblock %}
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12 footer">
-            {% block footer %}
-
-            {% endblock %}
-
-        </div>
-    </div>
 </div>
 
-{% block javascripts %}
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-{% endblock %}
 </body>
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+
 </html>
