@@ -26,6 +26,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $theme = 'bootstrap';
+        if ($this->get('session')->get('theme') == null ){
+            $this->get('session')->set('theme',$theme);
+        }
+
         $translated = $this->get('translator')->trans('action.cancel');
         dump ($translated);
         $breadcrumbs = $this->get("white_october_breadcrumbs");

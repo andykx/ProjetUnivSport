@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Event;
 use AppBundle\Form\EventType;
@@ -25,6 +26,8 @@ use Suin\RSSWriter\Feed;
 use Suin\RSSWriter\Channel;
 use Suin\RSSWriter\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 /**
@@ -184,5 +187,42 @@ class EventController extends Controller
         }
     }
 
+    /**
+     * Change the locale for the current user
+     *
+     * @Route("/appelTheme", name="appelTheme")
+     *
+     */
+    public function themeAction(Request $request)
+    {
+        $defaultData = array('theme' => 'default');
+        $form = $this->createFormBuilder($defaultData)
+            ->add('theme', ChoiceType::class, array(
+                'choices'=>array(
+                    'Lux' => 'lux',
+                    'Materia' => 'materia',
+                    'Cerulean' => 'cerulean',
+                    'Sketchy' => 'sketchy',
+                    'Bootstrap' => 'bootstrap'
+                )
+            ))
+            ->add('Ok', SubmitType::class)
+            ->getForm();
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // data is an array with "name", "email", and "message" keys
+            $data = $form->getData();
+            $data = implode(',' , $data);
+
+            $this->get('session')->set('theme',$data);
+        }
+
+        return $this->render('event/theme.html.twig', [
+            'form'=>$form->createView()
+
+        ]);
+
+    }
 }

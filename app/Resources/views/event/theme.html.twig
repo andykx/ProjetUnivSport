@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.js') }}"></script>
+
+    {% endblock %}
+
+{%block body%}
+
+    <h3>{{'Selectionner votre theme'|trans}}</h3>
+    <div class="well">
+     {{ form(form) }}
+    </div>
+
+{%endblock%}
+

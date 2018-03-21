@@ -29,17 +29,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('event_rss') }}">{{'RSS'|trans}}</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{'Theme'|trans}}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ path('setTheme',{'style':'bootstrap'}) }}">Bootstrap</a>
-                            <a class="dropdown-item" href="{{ path('setTheme',{'style':'lux'}) }}">Lux</a>
-                            <a class="dropdown-item" href="{{ path('setTheme',{'style':'materia'}) }}">Materia</a>
-                            <a class="dropdown-item" href="{{ path('setTheme',{'style':'cerulean'}) }}">Cerulean</a>
-                            <a class="dropdown-item" href="{{ path('setTheme',{'style':'sketchy'}) }}">Sketchy</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('appelTheme') }}">{{'Themes'|trans}}</a>
                     </li>
                     <li>
                         <a href="{{ path('fos_user_profile_show') }}">{{ 'my_profile' | trans }}</a>
@@ -56,7 +47,7 @@
                     </ul>
                     </li>
                 {% else %}
-                    <li><a href="{{ path('fos_user_registration_register') }}><span class="glyphicon glyphicon-user"></span> {{ 'sign_up'|trans }}</a></li>
+                    <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> {{ 'sign_up'|trans }}</a></li>
                     <li><a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span> {{ 'login'|trans }}</a></li>
                 {% endif %}
             </ul>
@@ -64,3 +55,9 @@
     </div>
 </nav>
 
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+{% endblock %}
