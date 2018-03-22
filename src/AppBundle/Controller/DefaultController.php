@@ -17,6 +17,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class DefaultController extends Controller
@@ -93,6 +95,45 @@ class DefaultController extends Controller
         $response = new Response($feed);
         $response->headers->set('Content-Type', 'xml');
         return $response;
+    }
+
+    /**
+     * Change the locale for the current user
+     *
+     * @Route("/appelTheme", name="appelTheme")
+     *
+     */
+    public function themeAction(Request $request)
+    {
+        $defaultData = array('theme' => 'default');
+        $form = $this->createFormBuilder($defaultData)
+            ->add('theme', ChoiceType::class, array(
+                'choices'=>array(
+                    'Lux' => 'lux',
+                    'Materia' => 'materia',
+                    'Cerulean' => 'cerulean',
+                    'Sketchy' => 'sketchy',
+                    'Bootstrap' => 'bootstrap'
+                )
+            ))
+            ->add('Ok', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // data is an array with "name", "email", and "message" keys
+            $data = $form->getData();
+            $data = implode(',' , $data);
+
+            $this->get('session')->set('theme',$data);
+        }
+
+        return $this->render('event/theme.html.twig', [
+            'form'=>$form->createView()
+
+        ]);
+
     }
 
 }

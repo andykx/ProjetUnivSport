@@ -187,42 +187,48 @@ class EventController extends Controller
         }
     }
 
+
+
     /**
-     * Change the locale for the current user
-     *
-     * @Route("/appelTheme", name="appelTheme")
-     *
+     * @Route ("/show/{id}",requirements ={"id": "\d+"}, name="event_show")
      */
-    public function themeAction(Request $request)
-    {
-        $defaultData = array('theme' => 'default');
-        $form = $this->createFormBuilder($defaultData)
-            ->add('theme', ChoiceType::class, array(
-                'choices'=>array(
-                    'Lux' => 'lux',
-                    'Materia' => 'materia',
-                    'Cerulean' => 'cerulean',
-                    'Sketchy' => 'sketchy',
-                    'Bootstrap' => 'bootstrap'
-                )
-            ))
-            ->add('Ok', SubmitType::class)
-            ->getForm();
 
-        $form->handleRequest($request);
+    public function showAction(Event $event){
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
-            $data = $form->getData();
-            $data = implode(',' , $data);
-
-            $this->get('session')->set('theme',$data);
-        }
-
-        return $this->render('event/theme.html.twig', [
-            'form'=>$form->createView()
-
+        return $this->render('event/show.html.twig',[
+            'event'=> $event
         ]);
 
+    }
+
+    /**
+     * @Route("/result", name="search_results")
+     */
+
+    public function resultsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $search = array();
+        $search['lieu']= $request->query->get('lieu');
+        $search['categorie']= $request->query->get('categorie');
+
+        $resultats = $em->getRepository(Event::class)->findEvent($search);
+        // Ici on utilise une requête créée dans le repository
+        $event = $this->get('knp_paginator')->paginate($resultats,
+            $request->query->get('page',1),4);
+
+        return $this->render('search/result.html.twig', [
+            'Event'=>$event
+        ]);
+
+    }
+
+    /**
+     * @Route("/search", name="search")
+     */
+
+    public function searchAction(Request $request)
+    {
+        return $this->render('search/search.html.twig');
     }
 }

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{%block title%}
+	{{'Events'|trans}}
+{%endblock%}
+
+    {% block stylesheets %}
+    	<link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+    {% endblock %}
+
+ {%block body%}
+ <div class="container">
+    		<div class="row">
+    			<h3>{{ 'Liste des events'|trans}} </h3>
+    		</div>
+			{% for e in Event %}
+			<div class="row">
+				<div class="col-lg-8">
+				<div class="list-group">
+  					<a href="{{ path('event_show',{'id': e.id})}}" class="list-group-item list-group-item-action flex-column align-items-start active">
+    					<div class="d-flex w-100 justify-content-between">
+      						<h5 class="mb-1">{{e.titre}}</h5>
+    					</div>
+    					<p class = "mb-1"> {{e.titre}} à {{e.lieu}}, {{e.nbInscrits}} place(s) à  {{e.nbInscrits}}€ </p>
+    					<small> {{e.nbPlacesDispo}} place(s) disponible(s) .</small>
+  					</a>
+  				</div>
+  				</div>
+  			</div>
+  			{%endfor%}
+  				
+  			<div class="row">
+	            <div class="text-center">
+              </div>
+	       </div>
+
+ {%endblock%}
+
+ {%block footer%}
+ {%endblock%}

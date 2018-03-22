@@ -1,3 +1,7 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
+{% endblock %}
+
 <!-- Navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -27,6 +31,9 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted("ROLE_USER") %}
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('search') }}">{{'Rechercher'|trans}}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('event_rss') }}">{{'RSS'|trans}}</a>
                     </li>
                     <li class="nav-item">
@@ -55,9 +62,4 @@
     </div>
 </nav>
 
-{% block stylesheets %}
 
-    <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-{% endblock %}

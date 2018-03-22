@@ -3,9 +3,6 @@
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/'~app.request.session.get('theme')~'.css') }}">
-        <script src="{{ asset('js/jquery.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-
     {% endblock %}
 
 {%block body%}
@@ -16,4 +13,9 @@
     </div>
 
 {%endblock%}
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+{% endblock %}
 
