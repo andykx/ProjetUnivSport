@@ -105,6 +105,10 @@ class DefaultController extends Controller
      */
     public function themeAction(Request $request)
     {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Sélection d'un thème",$this->get("router")->generate("appelTheme"));
+
         $defaultData = array('theme' => 'default');
         $form = $this->createFormBuilder($defaultData)
             ->add('theme', ChoiceType::class, array(

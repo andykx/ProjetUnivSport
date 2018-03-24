@@ -101,18 +101,32 @@ class EventController extends Controller
 
     public function addAction(Request $request)
     {
-        $event = new event();
-        $form = $this->createForm(EventType::class,$event);
-        $form->handleRequest($request);
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Ajouter un évènement",$this->get("router")->generate("event_add"));
 
-        if ($form->isSubmitted())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
+        $event = new Event();
+        $user = $this->getUser();
+        $form = $this->createForm(EventType::class, $event,[
+            'action'=>$this->generateUrl('event_add')
+        ]);
+        $form->handleRequest($request);
+        if (!$form->isSubmitted() || ! $form->isValid()){
+
+            return $this->render('event/new.html.twig',[
+                'form'=> $form->createView(),
+
+            ]);
         }
-        $formView = $form->createView();
-        return $this->render('event/new.html.twig', array('form'=>$formView));
+        $event->setUser($user);
+        $event->setNbPlacesDispo($event->getNbInscrits());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($event);
+        $em->flush();
+
+        $this->addFlash('notice', 'Event posté');
+
+        return $this->redirectToRoute('event_index');
     }
 
     /**
@@ -122,6 +136,11 @@ class EventController extends Controller
      */
     public function editAction(Request $request, Event $event)
     {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Liste des évènements",$this->get("router")->generate("event_index"));
+        $breadcrumbs->addItem("Editer évènement");
+
         $deleteForm = $this->createDeleteForm($event);
         $editForm = $this->createForm('AppBundle\Form\EventType', $event);
         $editForm->handleRequest($request);
@@ -165,35 +184,17 @@ class EventController extends Controller
         return $this->redirectToRoute('event_index');
     }
 
-    /**
-     * Change the locale for the current user
-     *
-     * @Route("/theme/{style}", name="setTheme")
-     *
-     */
-    public function setThemeAction(Request $request, $style = "null")
-    {
-
-        if ($style != null) {
-            $request->getSession()->set('style', 'css/' . $style . '.css');
-        }
-
-
-        $referer = $request->headers->get('referer');
-        if( strpos($referer, "/event/")){
-            return $this->redirectToRoute('event_index');
-        }else{
-            return $this->redirect($referer);
-        }
-    }
-
-
 
     /**
      * @Route ("/show/{id}",requirements ={"id": "\d+"}, name="event_show")
      */
 
     public function showAction(Event $event){
+
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Liste des évènements",$this->get("router")->generate("event_index"));
+        $breadcrumbs->addItem("Voir évènement");
 
         return $this->render('event/show.html.twig',[
             'event'=> $event
@@ -229,6 +230,10 @@ class EventController extends Controller
 
     public function searchAction(Request $request)
     {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
+        $breadcrumbs->addItem("Rechercher un évènement",$this->get("router")->generate("search"));
+
         return $this->render('search/search.html.twig');
     }
 }

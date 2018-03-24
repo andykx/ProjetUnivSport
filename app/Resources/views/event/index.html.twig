@@ -2,20 +2,20 @@
 
 {% block body %}
     <div class="container">
+        {{ wo_render_breadcrumbs() }}
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-success">
-                    {{ wo_render_breadcrumbs() }}
-                    <div class="panel-heading">Liste des évenements
+                    <div class="panel-heading">{{ 'event.listeDesEvenements' |trans}}
                         <table class="table">
                             <tr>
-                                <th>Titre</th>
-                                <th>Description</th>
-                                <th>Lieu</th>
-                                <th>Catégorie (Tournoi/Concours)</th>
-                                <th>Total de places</th>
-                                <th>Places restantes</th>
-                                <th>Date de l'évenement</th>
+                                <th>{{ 'event.titre' |trans}}</th>
+                                <th>{{ 'event.description' |trans}}</th>
+                                <th>{{ 'event.lieu' |trans}}</th>
+                                <th>{{ 'event.categorie' |trans}}</th>
+                                <th>{{ 'event.totalPlaces' |trans}}</th>
+                                <th>{{ 'event.placesRestantes' |trans}}</th>
+                                <th>{{ 'event.dateEvent' |trans}}</th>
                             </tr>
                             {% for event in events %}
                                 <tr>
@@ -26,9 +26,16 @@
                                     <td> {{ event.nbInscrits }}</td>
                                     <td> {{ event.nbPlacesDispo }}</td>
                                     <td> {{ event.date|date("d/m/Y H:i:s") }}</td>
-                                    <td><a href="{{ path('event_show',{'id':event.id}) }}"><input class="btn btn-info btn-sm" type="submit" value="Voir"/> </a></td>
-                                    <td><a href="{{ path('event_edit',{'id':event.id}) }}"><input class="btn btn-warning btn-sm" type="submit" value="Modifier"/> </a></td>
-                                    <td><a href="{{ path('event_delete', {'id':event.id}) }}"><input class="btn btn-danger btn-sm" type="submit" value="Supprimer"/> </a></td>
+                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                         {% if  app.user.id != event.user.id%}
+                                            <td><a href="{{ path('reserv_index', {'id': event.id}) }}"><input class="btn btn-success btn-sm" type="submit" value="{{ 'event.reserver'|trans}}"></a></td>
+                                         {%endif%}
+                                    {%endif%}
+                                    <td><a href="{{ path('event_show',{'id':event.id}) }}"><input class="btn btn-info btn-sm" type="submit" value="{{ 'event.voir'|trans}}"/> </a></td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <td><a href="{{ path('event_edit',{'id':event.id}) }}"><input class="btn btn-warning btn-sm" type="submit" value="{{ 'event.modifier'|trans}}"/> </a></td>
+                                        <td><a href="{{ path('event_delete', {'id':event.id}) }}"><input class="btn btn-danger btn-sm" type="submit" value="{{ 'event.supprimer'|trans}}"/> </a></td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </table>

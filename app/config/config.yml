@@ -80,7 +80,7 @@ fos_user:
         sender_name: "fosuser"
 
 white_october_breadcrumbs:
-    separator:          '>'
+    separator:          ''
     separatorClass:     'separator'
     listId:             'wo-breadcrumbs'
     listClass:          'breadcrumb'

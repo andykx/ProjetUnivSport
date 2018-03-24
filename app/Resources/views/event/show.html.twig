@@ -2,8 +2,9 @@
 
 {% block body %}
     <div class=" container">
+    {{ wo_render_breadcrumbs() }}
 
-        <h1>Event</h1>
+        <h1>{{'event.vizualize'|trans}}</h1>
 
         <table class="table ">
             <tbody>
@@ -18,6 +19,18 @@
             <tr>
                 <th>{{'event.description'|trans}}</th>
                 <td>{{ event.description }}</td>
+            </tr>
+            <tr>
+                <th>{{'event.lieu'|trans}}</th>
+                <td>{{ event.lieu }}</td>
+            </tr>
+            <tr>
+                <th>{{'event.categorie'|trans}}</th>
+                <td>{{ event.categorie }}</td>
+            </tr>
+            <tr>
+                <th>{{'event.nbPlacesDispo'|trans}}</th>
+                <td>{{ event.nbPlacesDispo }}</td>
             </tr>
             </tbody>
         </table>

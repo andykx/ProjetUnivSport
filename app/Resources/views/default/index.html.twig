@@ -2,10 +2,10 @@
 
 {% block body %}
     <div class="container">
+        {{ wo_render_breadcrumbs() }}
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                {{ wo_render_breadcrumbs() }}
-                <h1>{{ 'welcome' | trans }}</h1>
+                <h1>{{ 'home.welcome' | trans }}</h1>
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <table class="table">

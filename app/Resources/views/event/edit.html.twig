@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="container">
+        {{ wo_render_breadcrumbs() }}
         <h1>{{'event.editing'|trans}}</h1>
         {% form_theme edit_form 'bootstrap_4_layout.html.twig' %}
         {{ form_start(edit_form) }}
@@ -12,6 +13,7 @@
         {{ form_start(delete_form) }}
         <input class="btn btn-danger" type="submit" value="Delete">
         {{ form_end(delete_form) }}
+        <a class="btn btn-primary" href="{{ path('event_index') }}">{{'event.backtolist'|trans}}</a>
     </div>
-    <a class="btn btn-primary" href="{{ path('event_index') }}">{{'event.backtolist'|trans}}</a>
+
 {% endblock %}

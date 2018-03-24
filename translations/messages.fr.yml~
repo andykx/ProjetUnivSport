@@ -1,1 +1,24 @@
-
+event.editing: Editer
+event.backtolist: Retour
+event.creation: Créer
+navbar.rechercher: Rechercher
+navbar.rss: RSS
+navbar.themes: Thèmes
+navbar.profile: 'Mon profil'
+navbar.logout: 'Se déconnecter'
+event.listeDesEvenements: 'Liste des évènements'
+event.titre: Titre
+event.description: Description
+event.lieu: Lieu
+event.categorie: Catégorie
+event.totalPlaces: 'Total places'
+event.placesRestantes: 'Places restantes'
+event.dateEvent: Date
+event.reserver: Réserver
+event.voir: Voir
+event.modifier: Modifier
+event.supprimer: Supprimer
+event.nbPlacesDispo: 'Places disponibles'
+event.search: 'Rechercher un évènement'
+event.btnsearch: Rechercher
+theme.select: Sélectionner votre thème

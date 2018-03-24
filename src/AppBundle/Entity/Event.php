@@ -71,6 +71,25 @@ class Event
      */
     private $categorie;
 
+    /**
+     *@ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="events", cascade={"persist"})
+     *@ORM\JoinColumn(nullable=true,onDelete="CASCADE")
+     */
+
+    private $user;
+
+    /**
+     *@ORM\OneToMany(targetEntity="Inscription", mappedBy="event")
+     */
+
+    private $inscriptions;
+
+
+
+    public function __construct(){
+        $this->inscriptions = new ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -201,7 +220,7 @@ class Event
     {
         return $this->date;
     }
-    
+
 
     /**
      * Set lieu
@@ -249,5 +268,22 @@ class Event
     public function getCategorie()
     {
         return $this->categorie;
+    }
+
+    public function getInscription(){
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription){
+        $this->inscriptions [] = $inscription;
+    }
+
+
+    public function setUser($user){
+        $this->user = $user;
+    }
+
+    public function getUser(){
+        return $this->user;
     }
 }

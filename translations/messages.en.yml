@@ -1,12 +1,31 @@
-home.title: UnivSport
-look_event: Look events
-add_event: Add event
-my_profile: My profile
-logout: Logout
-sign_up: Sign up
-login: Login
-welcome: Welcome on the webstite
 event.editing: Edit
 event.backtolist: Back
 event.creation: Create
-Theme: Themes
+event.listeDesEvenements: 'List of events'
+event.titre: Title
+event.description: Description
+event.lieu: Place
+event.categorie: Category
+event.totalPlaces: 'Total places'
+event.placesRestantes: 'Remaining places'
+event.dateEvent: Date
+event.reserver: Reserve
+event.voir: Look
+event.modifier: Modify
+event.supprimer: Delete
+event.nbPlacesDispo: 'Available places'
+event.search: 'Search an event'
+event.look: 'Look events'
+event.add: 'Create an event'
+event.btnsearch: Search
+home.title: UnivSports
+home.welcome: 'Welcome on the website'
+home.sign_up: 'Create an account'
+home.login: 'Login'
+navbar.rechercher: Search
+navbar.rss: RSS
+navbar.themes: Themes
+navbar.profile: 'My profile'
+navbar.logout: 'Logout'
+theme.select: 'Select a theme'
+event.vizualize: 'Visualize an event'
