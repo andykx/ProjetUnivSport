@@ -20,7 +20,6 @@ use AppBundle\Entity\Event;
  *@Route ("/{_locale}/inscrip")
  */
 
-
 class InscriptionController extends Controller
 {
 
@@ -29,10 +28,7 @@ class InscriptionController extends Controller
      * @return Symfony\Component\HttpFoundation\Response
      * @throws \LogicException
      */
-
-
     public function resAction(Event $event, Request $request){
-
 
         $exist= false;
         $user= $this->getUser();
@@ -40,13 +36,10 @@ class InscriptionController extends Controller
         $placedispo = $event->getNbPlacesDispo();
 
         if ($placedispo == 0 ){
-
             return $this->redirectToRoute('event_show',['id'=>$event->getId()]);
-
         }
 
         else{
-
             $i=0;
             while ($exist==false and $i< count($inscriptions)){
                 $userReserv = $inscriptions[$i]->getUser();
@@ -55,7 +48,6 @@ class InscriptionController extends Controller
                 }
                 $i++;
             }
-
 
             if($exist == false){
 
@@ -72,6 +64,4 @@ class InscriptionController extends Controller
             }
         }
     }
-
-
 }

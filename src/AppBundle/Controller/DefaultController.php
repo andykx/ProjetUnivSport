@@ -35,73 +35,15 @@ class DefaultController extends Controller
 
         $translated = $this->get('translator')->trans('action.cancel');
         dump ($translated);
+
+        // insertion du fil d'ariane
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
         return $this->render('default/index.html.twig');
     }
 
     /**
-     *
-     * @Route("/locale/{locale}", name="setlocale")
-     *
-     */
-    public function setLocaleAction(Request $request, $locale = "null")
-    {
-        if ($locale != null) {
-            $request->getSession()->set('{_locale', $locale);
-        }
-        return $this->redirectToRoute('homepage');
-    }
-
-    /**
-     * @Route("/rss", name="getFluxRss")
-     */
-    public function rssAction(Request $request)
-    {
-
-        $domaine = 'http://UnivSport.fr/';
-        $em = $this->getDoctrine()->getManager();
-
-        // recuperation d'uniquement ceux à venir
-        $events = $this->getDoctrine()
-            ->getRepository('AppBundle:Event')
-            ->findAllGreaterThanDate(date('Y-m-d H:i:s'));
-
-        $locale =  $request->getLocale();
-
-        $feed = new Feed();
-
-        $channel = new Channel();
-        $channel
-            ->title('Evenements')
-            ->description('Liste des évènements à venir')
-            ->url('http://UnivSport.fr')
-            ->feedUrl('http://UnivSport.fr/rss')
-            ->copyright('Copyright 2018, UnivSport.fr')
-            ->pubDate(strtotime(date('Y-m-d H:i:s')))
-            ->lastBuildDate(strtotime(date('Y-m-d H:i:s')))
-            ->appendTo($feed);
-
-        foreach ($events as $event) {
-            $auteur = $event->getUser();
-            $item = new Item();
-            $item
-                ->titre($event->getTitre())
-                ->description('<div>'.$event->getDescription().'</div>')
-                ->url($domaine.$locale.'/event/'.$event->getId())
-                ->pubDate($event->getDate()->getTimeStamp())
-                ->appendTo($channel);
-        }
-        $response = new Response($feed);
-        $response->headers->set('Content-Type', 'xml');
-        return $response;
-    }
-
-    /**
-     * Change the locale for the current user
-     *
-     * @Route("/appelTheme", name="appelTheme")
-     *
+     * @Route("/auth/{_locale}/appelTheme", name="appelTheme")
      */
     public function themeAction(Request $request)
     {
@@ -120,13 +62,12 @@ class DefaultController extends Controller
                     'Bootstrap' => 'bootstrap'
                 )
             ))
-            ->add('Ok', SubmitType::class)
+            ->add('Valider', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
             $data = implode(',' , $data);
 
@@ -137,7 +78,5 @@ class DefaultController extends Controller
             'form'=>$form->createView()
 
         ]);
-
     }
-
 }

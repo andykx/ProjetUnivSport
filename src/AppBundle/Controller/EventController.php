@@ -50,6 +50,16 @@ class EventController extends Controller
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Home",$this->get("router")->generate("homepage"));
         $breadcrumbs->addItem("Liste des évènements",$this->get("router")->generate("event_index"));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $listeEvents = $em->getRepository('AppBundle:Event')->findAll();
+        $events  = $this->get('knp_paginator')->paginate(
+            $listeEvents,
+            $request->query->get('page', 1)/*le numéro de la page à afficher*/,
+            4/*nbre d'éléments par page*/
+        );
+
         return $this->render('event/index.html.twig', [
             'events'=> $events
         ]);
@@ -130,9 +140,7 @@ class EventController extends Controller
     }
 
     /**
-     *
      * @Route("/edit/{id}", name="event_edit")
-     *
      */
     public function editAction(Request $request, Event $event)
     {
@@ -184,7 +192,6 @@ class EventController extends Controller
         return $this->redirectToRoute('event_index');
     }
 
-
     /**
      * @Route ("/show/{id}",requirements ={"id": "\d+"}, name="event_show")
      */
@@ -221,13 +228,11 @@ class EventController extends Controller
         return $this->render('search/result.html.twig', [
             'Event'=>$event
         ]);
-
     }
 
     /**
      * @Route("/search", name="search")
      */
-
     public function searchAction(Request $request)
     {
         $breadcrumbs = $this->get("white_october_breadcrumbs");

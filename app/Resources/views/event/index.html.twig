@@ -5,7 +5,7 @@
         {{ wo_render_breadcrumbs() }}
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-success">
+                <div class="panel panel-default">
                     <div class="panel-heading">{{ 'event.listeDesEvenements' |trans}}
                         <table class="table">
                             <tr>
@@ -39,6 +39,7 @@
                                 </tr>
                             {% endfor %}
                         </table>
+                        <div class="text-center">{{ knp_pagination_render(events) }}</div>
                     </div>
                 </div>
             </div>

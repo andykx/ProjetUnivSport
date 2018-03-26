@@ -18,9 +18,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-list"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('event_index') }}">{{'event.look'|trans}}</a></li>
+                            <li>
+                                <a href="{{ path('event_index') }}">{{'event.look'|trans}}</a>
+                            </li>
                             {% if is_granted("ROLE_ADMIN") %}
-                            <li><a href="{{ path('event_add') }}">{{'event.add'|trans}}</a></li>
+                                <li>
+                                    <a href="{{ path('event_add') }}">{{'event.add'|trans}}</a>
+                                </li>
                             {% endif %}
                         </ul>
                     </li>
