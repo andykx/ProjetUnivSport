@@ -55,10 +55,10 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder($defaultData)
             ->add('theme', ChoiceType::class, array(
                 'choices'=>array(
-                    'Lux' => 'lux',
-                    'Materia' => 'materia',
                     'Cerulean' => 'cerulean',
-                    'Sketchy' => 'sketchy',
+                    'Spacelab' => 'spacelab',
+                    'Cyborg' => 'cyborg',
+                    'United' => 'united',
                     'Bootstrap' => 'bootstrap'
                 )
             ))
